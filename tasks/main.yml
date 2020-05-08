@@ -12,12 +12,12 @@
 
 - name: Create npm global directory
   file:
-    path: "{{ npm_config_prefix }}"
+    path: "{{ nodejs_npm_config_prefix }}"
     owner: "{{ nodejs_install_npm_user }}"
     group: "{{ nodejs_install_npm_user }}"
     state: directory
 
-- name: Add npm_config_prefix bin directory to global $PATH.
+- name: Add nodejs_npm_config_prefix bin directory to global $PATH.
   template:
     src: npm.sh.j2
     dest: /etc/profile.d/npm.sh
@@ -30,13 +30,28 @@
     global: true
     state: latest
   environment:
-    NPM_CONFIG_PREFIX: "{{ npm_config_prefix }}"
-    NODE_PATH: "{{ npm_config_prefix }}/lib/node_modules"
-    NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
+    NPM_CONFIG_PREFIX: "{{ nodejs_npm_config_prefix }}"
+    NODE_PATH: "{{ nodejs_npm_config_prefix }}/lib/node_modules"
+    NPM_CONFIG_UNSAFE_PERM: "{{ nodejs_npm_config_unsafe_perm }}"
   with_items: "{{ nodejs_npm_global_packages }}"
   tags: ['skip_ansible_lint']
 
-- name: Install packages defined in a given package.json.
+- name: Npm install packages defined in a given package.json.
   npm:
-    path: "{{ nodejs_package_json_path }}"
-  when: nodejs_package_json_path is defined and nodejs_package_json_path
+    path: "{{ nodejs_npm_package_json_path }}"
+  when: nodejs_npm_package_json_path is defined and nodejs_npm_package_json_path
+
+- name: Ensure yarn global packages are installed.
+  yarn:
+    name: "{{ item.name | default(item) }}"
+    version: "{{ item.version | default('latest') }}"
+    path: "{{ nodejs_yarn_config_prefix }}/lib/node_modules"
+    global: true
+    state: latest
+  with_items: "{{ nodejs_yarn_global_packages }}"
+  tags: ['skip_ansible_lint']
+
+- name: Yarn install packages defined in a given package.json.
+  npm:
+    path: "{{ nodejs_yarn_package_json_path }}"
+  when: nodejs_yarn_package_json_path is defined and nodejs_yarn_package_json_path

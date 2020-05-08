@@ -20,11 +20,11 @@ The Node.js version to install. "12.x" is the default and works on most supporte
 
 The user for whom the npm packages will be installed can be set here, this defaults to `ansible_user`.
 
-    npm_config_prefix: "/usr/local/lib/npm"
+    nodejs_npm_config_prefix: "/usr/local/lib/npm"
 
 The global installation directory. This should be writeable by the `nodejs_install_npm_user`.
 
-    npm_config_unsafe_perm: "false"
+    nodejs_npm_config_unsafe_perm: "false"
 
 Set to true to suppress the UID/GID switching when running package scripts. If set explicitly to false, then installing as a non-root user will fail.
 
@@ -40,6 +40,7 @@ A list of npm packages with a `name` and (optional) `version` to be installed gl
       - name: node-sass
       # This shorthand syntax also works (same as previous example).
       - node-sass
+
 <!-- code block separator -->
 
     nodejs_package_json_path: ""
@@ -58,7 +59,7 @@ None.
       roles:
         - geerlingguy.nodejs
 
-*Inside `vars/main.yml`*:
+_Inside `vars/main.yml`_:
 
     nodejs_npm_global_packages:
       - name: jslint

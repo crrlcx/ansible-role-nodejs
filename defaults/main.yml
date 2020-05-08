@@ -7,11 +7,11 @@ nodejs_version: "12.x"
 # nodejs_install_npm_user: username
 
 # The directory for global installations.
-npm_config_prefix: "/usr/local/lib/npm"
+nodejs_npm_config_prefix: "/usr/local/lib/npm"
 
 # Set to true to suppress the UID/GID switching when running package scripts. If
 # set explicitly to false, then installing as a non-root user will fail.
-npm_config_unsafe_perm: "false"
+nodejs_npm_config_unsafe_perm: "false"
 
 # Define a list of global packages to be installed with NPM.
 nodejs_npm_global_packages: []
@@ -25,3 +25,13 @@ nodejs_npm_global_packages: []
 
 # The path of a package.json file used to install packages globally.
 nodejs_package_json_path: ""
+
+# yarnpkg
+nodejs_yarn_install: false
+nodejs_yarn_channel: 'stable'
+nodejs_yarn_version: '1.21.1'
+nodejs_yarn_config_prefix: "/usr/local/lib/yarn"
+nodejs_yarn_global_packages: []
+#  # Install a specific version of a package.
+#  - name: jslint
+#    version: 0.9.3
