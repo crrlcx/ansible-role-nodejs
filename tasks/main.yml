@@ -1,14 +1,17 @@
 ---
 - import_tasks: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat'
+  when:
+    - ansible_os_family == 'RedHat'
 
 - import_tasks: setup-Debian.yml
-  when: ansible_os_family == 'Debian'
+  when:
+    - ansible_os_family == 'Debian'
 
 - name: Define nodejs_install_npm_user
   set_fact:
     nodejs_install_npm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
-  when: nodejs_install_npm_user is not defined
+  when:
+    - nodejs_install_npm_user is not defined
 
 - name: Create npm global directory
   file:
@@ -39,7 +42,9 @@
 - name: Npm install packages defined in a given package.json.
   npm:
     path: "{{ nodejs_npm_package_json_path }}"
-  when: nodejs_npm_package_json_path is defined and nodejs_npm_package_json_path
+  when:
+    - nodejs_npm_package_json_path is defined
+    - nodejs_npm_package_json_path | length > 0
 
 - name: Ensure yarn global packages are installed.
   yarn:
@@ -54,4 +59,6 @@
 - name: Yarn install packages defined in a given package.json.
   npm:
     path: "{{ nodejs_yarn_package_json_path }}"
-  when: nodejs_yarn_package_json_path is defined and nodejs_yarn_package_json_path
+  when:
+    - nodejs_yarn_package_json_path is defined
+    - nodejs_yarn_package_json_path | length > 0
