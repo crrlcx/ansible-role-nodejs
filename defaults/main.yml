@@ -29,7 +29,7 @@ nodejs_package_json_path: ""
 # yarnpkg
 nodejs_yarn_install: false
 nodejs_yarn_channel: 'stable'
-nodejs_yarn_version: '1.21.1'
+nodejs_yarn_version: '1.22.4'
 nodejs_yarn_config_prefix: "/usr/local/lib/yarn"
 nodejs_yarn_global_packages: []
 #  # Install a specific version of a package.
